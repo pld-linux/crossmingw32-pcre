@@ -79,8 +79,8 @@ TARGET="%{target}" ; export TARGET
 	--disable-shared
 
 # we want host binary to generate some tables, not win32 binary
-cc -c %{optflags} -I. dftables.c
-cc %{optflags} -I. -I. -o dftables dftables.o
+cc -c %{rpmcflags} -I. dftables.c
+cc %{rpmcflags} -I. -I. -o dftables dftables.o
 
 %{__make}
 %{__make} pcre.dll
