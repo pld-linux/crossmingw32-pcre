@@ -3,7 +3,7 @@ Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl):	Biblioteka perlowych wyra¿eñ regularnych - wersja skro¶na dla Mingw32
 Name:		crossmingw32-%{realname}
 Version:	4.5
-Release:	1
+Release:	2
 License:	Free to use (see LICENCE)
 Group:		Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
@@ -26,6 +26,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		__cc		%{target}-gcc
 %define		__cxx		%{target}-g++
+
+%ifarch alpha sparc sparc64 sparcv9
+%define		optflags	-O2
+%endif
 
 %description
 PCRE stands for the Perl Compatible Regular Expression library. It
@@ -69,8 +73,14 @@ TARGET="%{target}" ; export TARGET
 %{__aclocal}
 %{__autoconf}
 %configure \
+	--host=%{_host} \
+	--target=%{target} \
 	--enable-utf8 \
 	--disable-shared
+
+# we want host binary to generate some tables, not win32 binary
+cc -c %{optflags} -I. dftables.c
+cc %{optflags} -I. -I. -o dftables dftables.o
 
 %{__make}
 %{__make} pcre.dll
