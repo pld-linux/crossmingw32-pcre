@@ -69,8 +69,6 @@ TARGET="%{target}" ; export TARGET
 %{__aclocal}
 %{__autoconf}
 %configure \
-	--host=%{_host} \
-	--target=%{target} \
 	--enable-utf8 \
 	--disable-shared
 
