@@ -1,0 +1,23 @@
+diff -ruN pcre-4.5./Makefile.in pcre-4.5/Makefile.in
+--- pcre-4.5./Makefile.in	2003-12-10 17:45:44.000000000 +0100
++++ pcre-4.5/Makefile.in	2003-12-25 17:50:50.205046552 +0100
+@@ -100,7 +100,7 @@
+ OBJ = maketables.@OBJEXT@ get.@OBJEXT@ study.@OBJEXT@ pcre.@OBJEXT@ @POSIX_OBJ@
+ LOBJ = maketables.lo get.lo study.lo pcre.lo @POSIX_LOBJ@
+ 
+-all:            libpcre.la @POSIX_LIB@ pcretest@EXEEXT@ pcregrep@EXEEXT@ @ON_WINDOWS@ winshared
++all:            libpcre.la @POSIX_LIB@
+ 
+ pcregrep@EXEEXT@: libpcre.la pcregrep.@OBJEXT@ @ON_WINDOWS@ winshared
+ 		$(LINK) -o pcregrep@EXEEXT@ pcregrep.@OBJEXT@ libpcre.la
+@@ -119,6 +119,10 @@
+ 		$(LINKLIB) -rpath $(LIBDIR) libpcre.la -version-info \
+ 		'$(PCREPOSIXLIBVERSION)' -o libpcreposix.la pcreposix.lo
+ 
++pcre.dll:	$(OBJ)
++		$(CC) -shared $(LOBJ) -o pcre.dll -Wl,--enable-auto-image-base -Wl,--out-implib,libpcre.dll.a
++		$(CC) -shared pcreposix.lo -o pcreposix.dll -Wl,--enable-auto-image-base -Wl,--out-implib,libpcreposix.dll.a
++
+ pcre.@OBJEXT@:  $(top_srcdir)/chartables.c $(top_srcdir)/pcre.c \
+ 		$(top_srcdir)/internal.h $(top_srcdir)/printint.c \
+ 		pcre.h config.h Makefile
