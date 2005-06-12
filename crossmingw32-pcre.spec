@@ -2,18 +2,20 @@
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl):	Biblioteka perlowych wyra¿eñ regularnych - wersja skro¶na dla Mingw32
 Name:		crossmingw32-%{realname}
-Version:	5.0
-Release:	3
+Version:	6.0
+Release:	1
 License:	BSD (see LICENCE)
 Group:		Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
 # Source0-md5:	813850808894d99fb5b1c41ec6335d4f
-Requires:	crossmingw32-runtime
+Patch0:		pcre-cxx.patch
+URL:		http://www.cpre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	crossmingw32-gcc
+BuildRequires:	crossmingw32-gcc-c++
 BuildRequires:	crossmingw32-w32api
 BuildRequires:	libtool
+Requires:	crossmingw32-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		no_install_post_strip	1
@@ -55,6 +57,7 @@ Group:		Applications/Emulators
 
 %prep
 %setup -q -n %{realname}-%{version}
+%patch0 -p1
 
 %build
 CC=%{target}-gcc ; export CC
@@ -81,7 +84,9 @@ TARGET="%{target}" ; export TARGET
 cc -c %{rpmcflags} -I. dftables.c
 cc %{rpmcflags} -I. -I. -o dftables dftables.o
 
-%{__make} winshared
+# override EXEEXT to use host binaries
+%{__make} winshared \
+	EXEEXT=
 
 %if 0%{!?debug:1}
 %{target}-strip .libs/*.dll
@@ -93,9 +98,11 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{arch}/{include,lib}
 install -d $RPM_BUILD_ROOT%{_datadir}/wine/windows/system
 
-install pcre.h $RPM_BUILD_ROOT%{arch}/include
-install .libs/libpcre{,.dll}.a $RPM_BUILD_ROOT%{arch}/lib
-install .libs/pcre.dll $RPM_BUILD_ROOT%{_datadir}/wine/windows/system
+install pcre.h pcreposix.h pcrecpp.h pcre_scanner.h pcre_stringpiece.h \
+	$RPM_BUILD_ROOT%{arch}/include
+install .libs/libpcre{,posix,cpp}.a $RPM_BUILD_ROOT%{arch}/lib
+install .libs/{libpcre,pcreposix,pcrecpp}.dll.a $RPM_BUILD_ROOT%{arch}/lib
+install .libs/pcre{,posix,cpp}.dll $RPM_BUILD_ROOT%{_datadir}/wine/windows/system
 
 %clean
 rm -rf $RPM_BUILD_ROOT
