@@ -7,7 +7,7 @@ Release:	1
 License:	BSD (see LICENCE)
 Group:		Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	813850808894d99fb5b1c41ec6335d4f
+# Source0-md5:	9352eb6d2be5ad9d8360d2377d3cafac
 Patch0:		pcre-cxx.patch
 URL:		http://www.cpre.org/
 BuildRequires:	autoconf
