@@ -1,0 +1,11 @@
+--- pcre-6.0/configure.in.orig	2005-06-07 10:36:38.000000000 +0200
++++ pcre-6.0/configure.in	2005-06-12 16:07:32.943969304 +0200
+@@ -44,7 +44,7 @@
+ 
+ AC_PROG_CXX
+ 
+-if test -n "$ac_cv_prog_ac_ct_CXX"; then
++if test -n "$CXX"; then
+   MAYBE_CPP_TARGETS='$(CPP_TARGETS)'
+ fi
+ echo "Maybe-cpp-targets: '$ac_cv_prog_CXX' '$MAYBE_CPP_TARGETS'" #!!
