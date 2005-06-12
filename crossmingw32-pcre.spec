@@ -9,7 +9,7 @@ Group:		Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
 # Source0-md5:	9352eb6d2be5ad9d8360d2377d3cafac
 Patch0:		pcre-cxx.patch
-URL:		http://www.cpre.org/
+URL:		http://www.pcre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	crossmingw32-gcc-c++
