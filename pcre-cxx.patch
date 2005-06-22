@@ -1,11 +1,11 @@
---- pcre-6.0/configure.in.orig	2005-06-07 10:36:38.000000000 +0200
-+++ pcre-6.0/configure.in	2005-06-12 16:07:32.943969304 +0200
-@@ -44,7 +44,7 @@
+--- pcre-6.1/configure.in~	2005-06-22 16:58:14.218414248 +0200
++++ pcre-6.1/configure.in	2005-06-22 16:58:37.476878424 +0200
+@@ -96,7 +96,7 @@
+ AC_LANG_RESTORE
  
- AC_PROG_CXX
- 
--if test -n "$ac_cv_prog_ac_ct_CXX"; then
-+if test -n "$CXX"; then
+ dnl From the above, we now have enough info to know if C++ is fully installed
+-if test -n "$ac_cv_prog_ac_ct_CXX" -a "$pcre_has_cpp_headers" = 1; then
++if test -n "$CXX" -a "$pcre_has_cpp_headers" = 1; then
    MAYBE_CPP_TARGETS='$(CPP_TARGETS)'
  fi
- echo "Maybe-cpp-targets: '$ac_cv_prog_CXX' '$MAYBE_CPP_TARGETS'" #!!
+ AC_SUBST(MAYBE_CPP_TARGETS)
