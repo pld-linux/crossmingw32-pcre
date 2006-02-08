@@ -2,12 +2,12 @@
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl):	Biblioteka perlowych wyra¿eñ regularnych - wersja skro¶na dla Mingw32
 Name:		crossmingw32-%{realname}
-Version:	6.5
+Version:	6.6
 Release:	1
 License:	BSD (see LICENCE)
 Group:		Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	1bd00f173438cbef8b957e3e1711f737
+# Source0-md5:	61067f730c46cf6bdd0f8efe3f4f51b6
 URL:		http://www.pcre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
