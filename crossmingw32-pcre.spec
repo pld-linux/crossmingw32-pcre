@@ -1,6 +1,6 @@
 %define		realname	pcre
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
-Summary(pl):	Biblioteka perlowych wyra¿eñ regularnych - wersja skro¶na dla Mingw32
+Summary(pl.UTF-8):   Biblioteka perlowych wyraÅ¼eÅ„ regularnych - wersja skroÅ›na dla Mingw32
 Name:		crossmingw32-%{realname}
 Version:	7.0
 Release:	1
@@ -37,21 +37,21 @@ PCRE stands for the Perl Compatible Regular Expression library. It
 contains routines to match text against regular expressions similar to
 Perl's. It also contains a POSIX compatibility library.
 
-%description -l pl
-PCRE (Perl-Compatible Regular Expression) oznacza bibliotekê wyra¿eñ
-regularnych kompatybilnych z perlowymi. Zawiera funkcje dopasowuj±ce
-tekst do wyra¿eñ regularnych podobnych do tych znanych z Perla.
-Zawiera tak¿e bibliotekê kompatybiln± z POSIX.
+%description -l pl.UTF-8
+PCRE (Perl-Compatible Regular Expression) oznacza bibliotekÄ™ wyraÅ¼eÅ„
+regularnych kompatybilnych z perlowymi. Zawiera funkcje dopasowujÄ…ce
+tekst do wyraÅ¼eÅ„ regularnych podobnych do tych znanych z Perla.
+Zawiera takÅ¼e bibliotekÄ™ kompatybilnÄ… z POSIX.
 
 %package dll
 Summary:	%{realname} - DLL libraries for Windows
-Summary(pl):	%{realname} - biblioteki DLL dla Windows
+Summary(pl.UTF-8):   %{realname} - biblioteki DLL dla Windows
 Group:		Applications/Emulators
 
 %description dll
 %{realname} - DLL libraries for Windows.
 
-%description dll -l pl
+%description dll -l pl.UTF-8
 %{realname} - biblioteki DLL dla Windows.
 
 %prep
