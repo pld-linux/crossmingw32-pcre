@@ -1,6 +1,6 @@
 %define		realname	pcre
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
-Summary(pl.UTF-8):   Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
+Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
 Name:		crossmingw32-%{realname}
 Version:	7.0
 Release:	1
@@ -45,7 +45,7 @@ Zawiera także bibliotekę kompatybilną z POSIX.
 
 %package dll
 Summary:	%{realname} - DLL libraries for Windows
-Summary(pl.UTF-8):   %{realname} - biblioteki DLL dla Windows
+Summary(pl.UTF-8):	%{realname} - biblioteki DLL dla Windows
 Group:		Applications/Emulators
 
 %description dll
