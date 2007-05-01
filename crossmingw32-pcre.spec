@@ -2,12 +2,13 @@
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
 Name:		crossmingw32-%{realname}
-Version:	7.0
+Version:	7.1
 Release:	1
 License:	BSD (see LICENCE)
-Group:		Libraries
+Group:		Development/Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	b97e3bb84bd665e0fbb7a90344d65a43
+# Source0-md5:	c678550aaf064a17bb4bb6ea36dd6d88
+Patch0:		%{realname}-dll.patch
 URL:		http://www.pcre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -22,8 +23,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		target		i386-mingw32
 %define		target_platform	i386-pc-mingw32
 %define		arch		%{_prefix}/%{target}
-%define		gccarch		%{_prefix}/lib/gcc-lib/%{target}
-%define		gcclib		%{_prefix}/lib/gcc-lib/%{target}/%{version}
+
+%define		_prefix		/usr/%{target}
+%define		_pkgconfigdir	%{_prefix}/lib/pkgconfig
+%define		_dlldir		/usr/share/wine/windows/system
 
 %define		__cc		%{target}-gcc
 %define		__cxx		%{target}-g++
@@ -43,10 +46,23 @@ regularnych kompatybilnych z perlowymi. Zawiera funkcje dopasowujące
 tekst do wyrażeń regularnych podobnych do tych znanych z Perla.
 Zawiera także bibliotekę kompatybilną z POSIX.
 
+%package static
+Summary:	Static PCRE libraries (cross mingw32 version)
+Summary(pl.UTF-8):	Statyczne biblioteki PCRE (wersja skrośna mingw32)
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description static
+Static PCRE libraries (cross mingw32 version).
+
+%description static -l pl.UTF-8
+Statyczne biblioteki PCRE (wersja skrośna mingw32).
+
 %package dll
 Summary:	%{realname} - DLL libraries for Windows
 Summary(pl.UTF-8):	%{realname} - biblioteki DLL dla Windows
 Group:		Applications/Emulators
+Requires:	wine
 
 %description dll
 %{realname} - DLL libraries for Windows.
@@ -56,6 +72,7 @@ Group:		Applications/Emulators
 
 %prep
 %setup -q -n %{realname}-%{version}
+%patch0 -p1
 
 %build
 CC=%{target}-gcc ; export CC
@@ -66,50 +83,61 @@ AS=%{target}-as ; export AS
 CROSS_COMPILE=1 ; export CROSS_COMPILE
 CPPFLAGS="-I%{arch}/include" ; export CPPFLAGS
 RANLIB=%{target}-ranlib ; export RANLIB
-LDSHARED="%{target}-gcc -shared" ; export LDSHARED
 TARGET="%{target}" ; export TARGET
 
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
-	--host=%{_host} \
+	--host=%{target} \
 	--target=%{target} \
-	--enable-utf8 \
-	--disable-shared
+	--enable-unicode-properties \
+	--enable-utf8
 
-# we want host binary to generate some tables, not win32 binary
-cc -c %{rpmcflags} -I. dftables.c
-cc %{rpmcflags} -I. -I. -o dftables dftables.o
-
-# override EXEEXT to use host binaries
-%{__make} winshared \
-	EXEEXT=
-
-%if 0%{!?debug:1}
-%{target}-strip .libs/*.dll
-%{target}-strip -g -R.comment -R.note .libs/*.a
-%endif
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{arch}/{include,lib}
-install -d $RPM_BUILD_ROOT%{_datadir}/wine/windows/system
 
-install pcre.h pcreposix.h pcrecpp.h pcre_scanner.h pcre_stringpiece.h \
-	$RPM_BUILD_ROOT%{arch}/include
-install .libs/libpcre{,posix,cpp}.a $RPM_BUILD_ROOT%{arch}/lib
-install .libs/{libpcre,pcreposix,pcrecpp}.dll.a $RPM_BUILD_ROOT%{arch}/lib
-install .libs/pcre{,posix,cpp}.dll $RPM_BUILD_ROOT%{_datadir}/wine/windows/system
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+install -d $RPM_BUILD_ROOT%{_dlldir}
+mv -f $RPM_BUILD_ROOT%{_prefix}/bin/*.dll $RPM_BUILD_ROOT%{_dlldir}
+
+%if 0%{!?debug:1}
+%{target}-strip --strip-unneeded -R.comment -R.note $RPM_BUILD_ROOT%{_dlldir}/*.dll
+%{target}-strip -g -R.comment -R.note $RPM_BUILD_ROOT%{_libdir}/*.a
+%endif
+
+rm -rf $RPM_BUILD_ROOT%{_datadir}/{doc,man}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%{arch}/include/*
-%{arch}/lib/*
+%doc AUTHORS ChangeLog LICENCE NEWS NON-UNIX-USE README
+%{_libdir}/libpcre.dll.a
+%{_libdir}/libpcrecpp.dll.a
+%{_libdir}/libpcreposix.dll.a
+%{_libdir}/libpcre.la
+%{_libdir}/libpcrecpp.la
+%{_libdir}/libpcreposix.la
+%{_includedir}/pcre*.h
+%{_pkgconfigdir}/libpcre.pc
+%{_pkgconfigdir}/libpcrecpp.pc
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libpcre.a
+%{_libdir}/libpcrecpp.a
+%{_libdir}/libpcreposix.a
 
 %files dll
 %defattr(644,root,root,755)
-%{_datadir}/wine/windows/system/*
+%{_dlldir}/libpcre-*.dll
+%{_dlldir}/libpcrecpp-*.dll
+%{_dlldir}/libpcreposix-*.dll
