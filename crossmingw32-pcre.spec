@@ -2,13 +2,12 @@
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
 Name:		crossmingw32-%{realname}
-Version:	7.2
+Version:	7.3
 Release:	1
 License:	BSD (see LICENCE)
 Group:		Development/Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	53305db73855f1ff155dcd2c05d448d3
-Patch0:		%{realname}-dll.patch
+# Source0-md5:	08b48bf97ff84a9dea07d6be518f0046
 URL:		http://www.pcre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -22,7 +21,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		target		i386-mingw32
 %define		target_platform	i386-pc-mingw32
-%define		arch		%{_prefix}/%{target}
 
 %define		_prefix		/usr/%{target}
 %define		_pkgconfigdir	%{_prefix}/lib/pkgconfig
@@ -72,19 +70,8 @@ Requires:	wine
 
 %prep
 %setup -q -n %{realname}-%{version}
-%patch0 -p1
 
 %build
-CC=%{target}-gcc ; export CC
-CXX=%{target}-g++ ; export CXX
-LD=%{target}-ld ; export LD
-AR=%{target}-ar ; export AR
-AS=%{target}-as ; export AS
-CROSS_COMPILE=1 ; export CROSS_COMPILE
-CPPFLAGS="-I%{arch}/include" ; export CPPFLAGS
-RANLIB=%{target}-ranlib ; export RANLIB
-TARGET="%{target}" ; export TARGET
-
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
