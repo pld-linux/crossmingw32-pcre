@@ -1,0 +1,5 @@
+- updated to 7.3
+- removed obsolete dll patch
+- spec cleanup
+[fixes CVE-2007-1659 CVE-2007-1660 CVE-2007-1661 CVE-2007-1662
+ CVE-2007-4766 CVE-2007-4767 CVE-2007-4768]
