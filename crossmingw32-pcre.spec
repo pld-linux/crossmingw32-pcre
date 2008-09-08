@@ -2,12 +2,12 @@
 Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
 Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
 Name:		crossmingw32-%{realname}
-Version:	7.7
+Version:	7.8
 Release:	1
 License:	BSD (see LICENCE)
 Group:		Development/Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	4b2e9cde1f7227448dddba59843efa0b
+# Source0-md5:	141132d6af14dccc7b08fa797e4fd441
 URL:		http://www.pcre.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -30,9 +30,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		__cc		%{target}-gcc
 %define		__cxx		%{target}-g++
 
-%ifarch alpha sparc sparc64 sparcv9
+%ifnarch %{ix86}
+# arch-specific flags (like alpha's -mieee) are not valid for i386 gcc
 %define		optflags	-O2
 %endif
+# -z options are invalid for mingw linker
+%define		filterout_ld	-Wl,-z,.*
 
 %description
 PCRE stands for the Perl Compatible Regular Expression library. It
