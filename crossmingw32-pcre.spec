@@ -9,7 +9,7 @@ Group:		Development/Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
 # Source0-md5:	141132d6af14dccc7b08fa797e4fd441
 URL:		http://www.pcre.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
 BuildRequires:	crossmingw32-gcc-c++
 BuildRequires:	crossmingw32-w32api
