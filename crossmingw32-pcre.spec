@@ -1,6 +1,6 @@
 %define		realname	pcre
-Summary:	Perl-Compatible Regular Expression library - Mingw32 cross version
-Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla Mingw32
+Summary:	Perl-Compatible Regular Expression library - MinGW32 cross version
+Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla MinGW32
 Name:		crossmingw32-%{realname}
 Version:	8.10
 Release:	1
@@ -49,16 +49,16 @@ tekst do wyrażeń regularnych podobnych do tych znanych z Perla.
 Zawiera także bibliotekę kompatybilną z POSIX.
 
 %package static
-Summary:	Static PCRE libraries (cross mingw32 version)
-Summary(pl.UTF-8):	Statyczne biblioteki PCRE (wersja skrośna mingw32)
+Summary:	Static PCRE libraries (cross MinGW32 version)
+Summary(pl.UTF-8):	Statyczne biblioteki PCRE (wersja skrośna MinGW32)
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description static
-Static PCRE libraries (cross mingw32 version).
+Static PCRE libraries (cross MinGW32 version).
 
 %description static -l pl.UTF-8
-Statyczne biblioteki PCRE (wersja skrośna mingw32).
+Statyczne biblioteki PCRE (wersja skrośna MinGW32).
 
 %package dll
 Summary:	%{realname} - DLL libraries for Windows
