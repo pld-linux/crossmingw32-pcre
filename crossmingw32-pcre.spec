@@ -2,18 +2,18 @@
 Summary:	Perl-Compatible Regular Expression library - MinGW32 cross version
 Summary(pl.UTF-8):	Biblioteka perlowych wyrażeń regularnych - wersja skrośna dla MinGW32
 Name:		crossmingw32-%{realname}
-Version:	8.21
+Version:	8.30
 Release:	1
 License:	BSD (see LICENCE)
 Group:		Development/Libraries
 Source0:	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/%{realname}-%{version}.tar.bz2
-# Source0-md5:	0a7b592bea64b7aa7f4011fc7171a730
+# Source0-md5:	98e8928cccc945d04279581e778fbdff
 URL:		http://www.pcre.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
 BuildRequires:	crossmingw32-gcc-c++
 BuildRequires:	crossmingw32-w32api
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:1.5
 Requires:	crossmingw32-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -84,6 +84,8 @@ Requires:	wine
 %configure \
 	--host=%{target} \
 	--target=%{target} \
+	--enable-jit \
+	--enable-pcre16 \
 	--enable-unicode-properties \
 	--enable-utf8
 
@@ -103,7 +105,7 @@ mv -f $RPM_BUILD_ROOT%{_prefix}/bin/*.dll $RPM_BUILD_ROOT%{_dlldir}
 %{target}-strip -g -R.comment -R.note $RPM_BUILD_ROOT%{_libdir}/*.a
 %endif
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/{doc,man}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/{doc,man}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -112,24 +114,29 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog LICENCE NEWS NON-UNIX-USE README
 %{_libdir}/libpcre.dll.a
+%{_libdir}/libpcre16.dll.a
 %{_libdir}/libpcrecpp.dll.a
 %{_libdir}/libpcreposix.dll.a
 %{_libdir}/libpcre.la
+%{_libdir}/libpcre16.la
 %{_libdir}/libpcrecpp.la
 %{_libdir}/libpcreposix.la
 %{_includedir}/pcre*.h
 %{_pkgconfigdir}/libpcre.pc
+%{_pkgconfigdir}/libpcre16.pc
 %{_pkgconfigdir}/libpcrecpp.pc
 %{_pkgconfigdir}/libpcreposix.pc
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libpcre.a
+%{_libdir}/libpcre16.a
 %{_libdir}/libpcrecpp.a
 %{_libdir}/libpcreposix.a
 
 %files dll
 %defattr(644,root,root,755)
-%{_dlldir}/libpcre-*.dll
-%{_dlldir}/libpcrecpp-*.dll
-%{_dlldir}/libpcreposix-*.dll
+%{_dlldir}/libpcre-1.dll
+%{_dlldir}/libpcre16-0.dll
+%{_dlldir}/libpcrecpp-0.dll
+%{_dlldir}/libpcreposix-0.dll
